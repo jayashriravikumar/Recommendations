@@ -1,0 +1,10 @@
+- Implement Docker Compose
+
+CSV into Realtime Data
+	Daily once RUN CRON to Get Updated Data
+	CRON Model train (model.py)
+
+- Run app.py at container startup
+
+- Top 3 Category -> Top 10 Product Not a shuffle
+- Need Top 10 product recommendation

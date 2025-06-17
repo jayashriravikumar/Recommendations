@@ -1,0 +1,2 @@
+*/1 * * * * root /usr/local/bin/python3 /app/model.py >> /var/log/cron.log 2>&1
+*/1 * * * * root echo "Cron ran at $(date)" >> /var/log/test_cron.log
