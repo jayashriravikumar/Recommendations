@@ -8,3 +8,6 @@ CSV into Realtime Data
 
 - Top 3 Category -> Top 10 Product Not a shuffle
 - Need Top 10 product recommendation
+
+MySQL Integration
+Include Stock

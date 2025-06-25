@@ -19,6 +19,7 @@ COPY cronjob /etc/cron.d/model-cron
 
 # Copy app files
 COPY . .
+RUN python3 model.py
 
 # Fix line endings and set up cron
 RUN sed -i 's/\r$//' /etc/cron.d/model-cron && \
