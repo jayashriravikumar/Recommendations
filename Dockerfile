@@ -1,5 +1,9 @@
 FROM python:3.11-slim
 
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y libgomp1
+
 WORKDIR /app
 
 # Install dependencies first for caching
@@ -11,8 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends cron procps && 
     rm -rf /var/lib/apt/lists/*
 
 # Create log files
-RUN touch /var/log/cron.log /var/log/test_cron.log && \
-    chmod 666 /var/log/cron.log /var/log/test_cron.log
+RUN touch /var/log/cron.log /var/log/test_cron.log /var/log/stock_cron.log && \
+    chmod 666 /var/log/cron.log /var/log/test_cron.log /var/log/stock_cron.log
 
 # Copy cron file first
 COPY cronjob /etc/cron.d/model-cron
@@ -20,6 +24,7 @@ COPY cronjob /etc/cron.d/model-cron
 # Copy app files
 COPY . .
 RUN python3 model.py
+RUN python3 stock_model.py
 
 # Fix line endings and set up cron
 RUN sed -i 's/\r$//' /etc/cron.d/model-cron && \

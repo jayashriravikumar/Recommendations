@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from recommender import recommend_from_model
+from stock_pred import get_stock_forecast
 import csv
 import datetime
 import os
@@ -70,6 +71,14 @@ def track_click():
         writer.writerow([timestamp, user_id, product_id, title, category, action])
 
     return jsonify({"message": "Click tracked."}), 200
+
+
+
+@app.route("/forecast_stock", methods=["GET"])
+def forecast_stock():
+    df = get_stock_forecast()
+    df.columns = ['pro_id', 'current_stock', 'forecasted_demand_7d', 'remaining_stock', 'stockout_risk']
+    return jsonify(df.to_dict(orient='records'))
 
 
 
