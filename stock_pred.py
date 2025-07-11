@@ -14,12 +14,13 @@ features_df = pd.read_pickle(os.path.join(BASE_DIR, "daily_features.pkl"))
 stock_df = pd.read_csv(os.path.join(BASE_DIR, "stock.csv"))
 
 features_df = features_df.sort_values(['pro_id', 'cdate'])
-
+target_date = pd.to_datetime("20.06.2025", format="%d.%m.%Y")
 # Prediction
 def get_stock_forecast():
     future_preds = []
     for pid in stock_df['pro_id'].unique():
-        recent = features_df[features_df['pro_id'] == pid].sort_values('cdate').tail(1)
+        recent = features_df[(features_df['pro_id'] == pid) & (features_df['cdate'] == target_date)]
+        # recent = features_df[features_df['pro_id'] == pid].sort_values('cdate').tail(1)
         if recent.empty:
             continue
         base = recent.iloc[0]
@@ -51,4 +52,5 @@ def get_stock_forecast():
     final['remaining_stock'] = final['remaining_stock'].round(0).astype(int)
     result = final[final['stockout_risk'] == True]
 
-    return result[['pro_id', 'qty', 'forecasted_demand_7d', 'remaining_stock', 'stockout_risk']]
+    return final[['pro_id', 'qty', 'forecasted_demand_7d', 'remaining_stock', 'stockout_risk']]
+

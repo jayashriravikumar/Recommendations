@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import os
 import faiss
+import numpy as np
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -76,6 +77,7 @@ def calculate_ctr(log_path="logs"):
 def train_faiss_ivf_index(user_category_scores, nlist=100, nprobe=10):
     user_cat_matrix = user_category_scores.pivot(index='user_id', columns='category', values='weighted_score').fillna(0)
     user_vectors = user_cat_matrix.values.astype('float32')
+    user_vectors = np.ascontiguousarray(user_vectors, dtype=np.float32)
     faiss.normalize_L2(user_vectors)
 
     d = user_vectors.shape[1]

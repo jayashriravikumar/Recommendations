@@ -1,3 +1,19 @@
+# version: '3.8'
+
+# services:
+#   recommender:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: recommender
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - ./logs:/app/logs
+#       - ./models:/app/models
+#       - ./data:/app/data
+#     restart: unless-stopped
+
 version: '3.8'
 
 services:
@@ -13,4 +29,8 @@ services:
       - ./models:/app/models
       - ./data:/app/data
     restart: unless-stopped
-
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]

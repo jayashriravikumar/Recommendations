@@ -21,6 +21,10 @@ features_df['lag_1'] = features_df.groupby('pro_id')['qty_sold'].shift(1)
 features_df['rolling_7'] = features_df.groupby('pro_id')['qty_sold'].transform(lambda x: x.shift(1).rolling(7).mean())
 features_df['rolling_14'] = features_df.groupby('pro_id')['qty_sold'].transform(lambda x: x.shift(1).rolling(14).mean())
 features_df['rolling_28'] = features_df.groupby('pro_id')['qty_sold'].transform(lambda x: x.shift(1).rolling(28).mean())
+#features_df['std_7'] = features_df.groupby('pro_id')['qty_sold'].transform(lambda x: x.shift(1).rolling(7).std())
+#features_df['expanding_mean'] = features_df.groupby('pro_id')['qty_sold'].transform(lambda x: x.shift(1).expanding().mean())
+#features_df['lag_7'] = features_df.groupby('pro_id')['qty_sold'].shift(7)
+
 features_df['target'] = features_df.groupby('pro_id')['qty_sold'].shift(-1)
 
 features_df.dropna(inplace=True)
@@ -34,6 +38,21 @@ X = features_df[features]
 y = features_df['target']
 
 model = lgb.LGBMRegressor(n_estimators=100)
+
+# from sklearn.model_selection import GridSearchCV
+
+# param_grid = {
+#     'n_estimators': [100, 200, 300],
+#     'learning_rate': [0.01, 0.05, 0.1],
+#     'max_depth': [3, 5, 7],
+#     'num_leaves': [15, 31, 63],
+# }
+
+# grid = GridSearchCV(lgb.LGBMRegressor(), param_grid, cv=3, scoring='neg_mean_absolute_error')
+# grid.fit(X, y)
+# print("Best params:", grid.best_params_)
+# model = grid.best_estimator_
+
 model.fit(X, y)
 
 with open(os.path.join(BASE_DIR, "stock_forecast_model.pkl"), "wb") as f:
