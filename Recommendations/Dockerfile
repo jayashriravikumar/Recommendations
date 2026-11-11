@@ -55,6 +55,10 @@ RUN curl -o miniconda.sh -L https://repo.anaconda.com/miniconda/Miniconda3-lates
     bash miniconda.sh -b -p /opt/conda && \
     rm miniconda.sh
 
+# Accept Anaconda Terms of Service for default channels (required for non-interactive conda use)
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 # Create environment and install faiss-gpu + Python deps
 # RUN conda create -n recommender python=3.10 -y && \
 #     /opt/conda/bin/conda run -n recommender conda install -c conda-forge faiss-gpu -y && \
