@@ -6,7 +6,8 @@ function StockForecast() {
 
   const fetchForecast = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/forecast_stock');
+      // const res = await axios.get('http://localhost:5000/forecast_stock');
+      const res = await axios.get('https://recommendations-production-9377c3e4.up.railway.app/forecast_stock');
       setStockData(res.data);
     } catch (error) {
       console.error("Error fetching forecast", error);

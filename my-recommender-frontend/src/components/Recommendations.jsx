@@ -7,7 +7,8 @@ function Recommendations() {
 
   const fetchRecommendations = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/recommend?user_id=${userId}`);
+      // const res = await axios.get(`http://localhost:5000/recommend?user_id=${userId}`);
+      const res = await axios.get(`https://recommendations-production-9377c3e4.up.railway.app/recommend?user_id=${userId}`);
       setRecommendations(res.data.recommendations);
     } catch (error) {
       console.error("Error fetching recommendations", error);
